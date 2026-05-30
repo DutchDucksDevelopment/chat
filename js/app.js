@@ -31,8 +31,8 @@
 
         var type = sender === states.name ? 'sent' : 'received';
         var displayName = type === 'sent' ? states.name : sender;
-        states.msgs.push({ name: displayName, text: msg.text, type: type });
-
+        states.msgs.push({ name: `${msg.time} | ${displayName}`, text: msg.text, type: type });
+		console.log(msg.time)
         // Browser notification: focus already-open window/tab on click
         if (Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
           try {
@@ -72,11 +72,7 @@
             if (skipNames.indexOf(sender.toLowerCase()) !== -1) continue;
           } catch (e) {}
           var type = sender === states.name ? 'sent' : 'received';
-          states.msgs.push({
-            name: sender,
-            text: entry.text,
-            type: type
-          });
+          states.msgs.push({ name: `${entry.time} | ${sender}`, text: entry.text, type: type });
         }
       });
     } else {
@@ -95,18 +91,20 @@
       methods: {
         onSend: function (text, clear) {
           if (!text || text.trim().length === 0) return;
-          const pad2 = n => String(n).padStart(2, '0');
+		  const pad2 = n => String(n).padStart(2, '0');
           let now = new Date();
-          let hours = now.getHours();
-          let minutes = now.getMinutes();
-          let seconds = now.getSeconds();
-          let time = `${pad2(hours)} : ${pad2(minutes)} : ${pad2(seconds)}`;
+          let h = now.getHours();
+          const ampm = h >= 12 ? 'PM' : 'AM';
+          h = h % 12 || 12;
+          let time = `${pad2(h)}:${pad2(now.getMinutes())} ${ampm}`;
+
 
           pubnub.publish({
             channel: room,
             message: {
-              text: `${time} | ${text}`,
-              name: this.name
+              text: text,
+              name: this.name,
+              time: time,
             }
           });
           if (typeof clear === 'function') clear();

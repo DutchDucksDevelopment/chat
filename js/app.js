@@ -179,12 +179,6 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var roomname = document.getElementById("roomtitle");
-    console.log("here")
-	if (room != "server") {
-		roomname.innerHTML = room;
-		console.log("set innerHTML")
-	};	
 	if (!localStorage.getItem('name')) {localStorage.setItem('name', '')}
     if (Framework7.prototype.device && Framework7.prototype.device.android) {
       Dom7('.view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
@@ -194,7 +188,10 @@
     document.getElementById("nameinput").value = localStorage.getItem('name')
 	console.log(document.getElementById("nameinput").value + localStorage.getItem('name'))
 	document.getElementById("roominput").value = room
-	if (!room) {document.getElementById('namediv').remove()};
+	if (!room) {
+		document.getElementById('namediv').remove()
+		document.getElementById("nametitle").remove()
+	};
   }, false);
 
 })();

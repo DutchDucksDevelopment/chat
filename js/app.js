@@ -150,6 +150,7 @@
           	alert('Join a room first');
             return false;
           }
+          document.getElementById("title").innerHTML = room
           localStorage.setItem("name", this.name)
           this.msgs.length = 0;
           this.$f7.mainView.router.load({ url: '/chat/' });
@@ -188,6 +189,7 @@
     document.getElementById("nameinput").value = localStorage.getItem('name')
 	console.log(document.getElementById("nameinput").value + localStorage.getItem('name'))
 	document.getElementById("roominput").value = room
+	document.getElementById("title").innerHTML = "Chat"
 	if (!room) {
 		document.getElementById('namediv').remove()
 		document.getElementById("nametitle").remove()

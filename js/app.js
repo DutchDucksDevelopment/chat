@@ -60,11 +60,13 @@
       methods: {
         onSend: function (text, clear) {
           if (!text || text.trim().length === 0) return;
-          let now = new Date();
+		  const pad2 = n => String(n).padStart(2, '0');
+		  let now = new Date();
 		  let hours = now.getHours();
 		  let minutes = now.getMinutes();
 		  let seconds = now.getSeconds();
-		  let time = `${hours} : ${minutes} : ${seconds}`
+		  let time = `${pad2(hours)} : ${pad2(minutes)} : ${pad2(seconds)}`;
+
           pubnub.publish({
             channel: room,
             message: {

@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  // expose an object to call from inline onclicks if needed
+
   window.appInstance = null;
   const params = new URLSearchParams(window.location.search);
   const room = params.get('room');

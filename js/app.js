@@ -32,7 +32,6 @@
         var type = sender === states.name ? 'sent' : 'received';
         var displayName = type === 'sent' ? states.name : sender;
         states.msgs.push({ name: `${msg.time} | ${displayName}`, text: msg.text, type: type });
-		console.log(msg.time)
         // Browser notification: focus already-open window/tab on click
         if (Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
           try {
@@ -191,6 +190,7 @@
           var titleEl = document.getElementById("title");
           if (titleEl) titleEl.innerHTML = room;
           localStorage.setItem("name", this.name);
+          localStorage.setItem("enterchat", true);
           this.msgs.length = 0;
           // show app root and hide join
           var joinEl = document.getElementById('join');
@@ -213,6 +213,7 @@
           }
           let u = new URL(window.location.href);
           let url = u.origin + u.pathname;
+          localStorage.setItem("enterchat", true)
           window.open(`${url}?room=${encodeURIComponent(roomtext)}`, "_self");
         }
       },
@@ -252,11 +253,13 @@
     var titleEl = document.getElementById("title");
     if (titleEl) titleEl.innerHTML = "Chat";
     if (!room) {
+      localStorage.setItem("enterchat", false)
       var namediv = document.getElementById('namediv');
       var nametitle = document.getElementById('nametitle');
       if (namediv) namediv.remove();
       if (nametitle) nametitle.remove();
     }
+	if (localStorage.getItem("enterchat")) {window.appInstance.enterChat()};
 
     // enable Framework7 dark theme class if desired
     document.documentElement.classList.add('theme-dark');

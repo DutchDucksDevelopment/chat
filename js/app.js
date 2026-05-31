@@ -72,7 +72,8 @@
             if (skipNames.indexOf(sender.toLowerCase()) !== -1) continue;
           } catch (e) {}
           var type = sender === states.name ? 'sent' : 'received';
-          states.msgs.push({ name: `${entry.time} | ${sender}`, text: entry.text, type: type });
+          if (!entry.time) {states.msgs.push({ name: sender, text: entry.text, type: type })}
+          else {states.msgs.push({ name: `${entry.time} | ${sender}`, text: entry.text, type: type })};
         }
       });
     } else {

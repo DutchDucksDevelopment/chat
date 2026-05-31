@@ -1,7 +1,5 @@
 (function () {
   'use strict';
-
-
   window.appInstance = null;
   const params = new URLSearchParams(window.location.search);
   const room = params.get('room');
@@ -17,6 +15,7 @@
   };
   if (!stealthmode) {localStorage.setItem("stealthmode", false)}
   var skipNames = ['chris', 'romain'];
+  var messagecount = 0
 
   function initPubNub() {
     pubnub.addListener({

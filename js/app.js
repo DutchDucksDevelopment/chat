@@ -3,11 +3,16 @@
 
   // expose an object to call from inline onclicks if needed
   window.appInstance = null;
-
   const params = new URLSearchParams(window.location.search);
+  const nostealth = !params.get('stealth');
   const room = params.get('room');
   console.log('room:', room);
-
+  if (nostealth) {
+  	var messagecount = 0
+  	document.title = "DDD chat"
+  	let link = document.querySelector("link[rel~='icon']");
+  	link.href = "img/logochat.png"
+  }
   var pubnub = new PubNub({
     publishKey: 'demo',
     subscribeKey: 'demo'
@@ -28,7 +33,8 @@
         try {
           if (skipNames.indexOf(sender.toLowerCase()) !== -1) return;
         } catch (e) { /* ignore */ }
-
+        messagecount = messagecount + 1
+		if (nostealth && !document.hasFocus()) {document.title = `(${messagecount}) DDD chat`}
         var type = sender === states.name ? 'sent' : 'received';
         var displayName = type === 'sent' ? states.name : sender;
         states.msgs.push({ name: `${msg.time} | ${displayName}`, text: msg.text, type: type });
@@ -245,7 +251,13 @@
     // request notification permission up front (optional
 
     initVue();
-
+	window.addEventListener('focus', () => {
+  		console.log('window focused');
+  		if (nostealth) {
+  			document.title = "DDD chat";
+  			messagecount = 0;
+  		}
+	});
     var nameInput = document.getElementById("nameinput");
     if (nameInput) nameInput.value = localStorage.getItem('name') || '';
     var roomInput = document.getElementById("roominput");

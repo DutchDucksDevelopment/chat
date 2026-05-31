@@ -4,25 +4,18 @@
   // expose an object to call from inline onclicks if needed
   window.appInstance = null;
   const params = new URLSearchParams(window.location.search);
-  const nostealth = !params.get('stealth');
   const room = params.get('room');
   console.log('room:', room);
-  if (nostealth) {
-  	var messagecount = 0
-  	document.title = "DDD chat"
-  	let link = document.querySelector("link[rel~='icon']");
-  	link.href = "img/logochat.png"
-  }
   var pubnub = new PubNub({
     publishKey: 'demo',
     subscribeKey: 'demo'
   });
-
+  var stealthmode = localStorage.getItem("stealthmode")
   var states = {
     name: '',
     msgs: []
   };
-
+  if (!stealthmode) {localStorage.setItem("stealthmode", false)}
   var skipNames = ['chris', 'romain'];
 
   function initPubNub() {
@@ -34,7 +27,7 @@
           if (skipNames.indexOf(sender.toLowerCase()) !== -1) return;
         } catch (e) { /* ignore */ }
         messagecount = messagecount + 1
-		if (nostealth && !document.hasFocus()) {document.title = `(${messagecount}) DDD chat`}
+		if (!stealthmode && !document.hasFocus()) {document.title = `(${messagecount}) DDD chat`}
         var type = sender === states.name ? 'sent' : 'received';
         var displayName = type === 'sent' ? states.name : sender;
         states.msgs.push({ name: `${msg.time} | ${displayName}`, text: msg.text, type: type });
@@ -221,7 +214,27 @@
           let url = u.origin + u.pathname;
           localStorage.setItem("enterchat", true)
           window.open(`${url}?room=${encodeURIComponent(roomtext)}`, "_self");
-        }
+        },
+        openstealth: function () {
+        	stealthmode = localStorage.getItem("stealthmode")
+        	if (stealthmode == "true") {
+        		localStorage.setItem("stealthmode", false)
+        		console.log("google")
+        		var messagecount = 0
+  				document.title = "DDD chat"
+  				let link = document.querySelector("link[rel~='icon']");
+  				link.href = "img/logochat.png"	
+        	}
+			else {
+				localStorage.setItem("stealthmode", true)
+				console.log("not google")
+				document.title = "Google"
+  				let link = document.querySelector("link[rel~='icon']");
+  				link.href = "img/logogoogle.png"	
+			}
+			stealthmode = localStorage.getItem("stealthmode")
+			console.log(stealthmode)	
+  		}
       },
       framework7: {
         root: '#app',
@@ -248,12 +261,11 @@
       Dom7('.view .navbar').prependTo('.view .page');
     }
 
-    // request notification permission up front (optional
 
     initVue();
 	window.addEventListener('focus', () => {
   		console.log('window focused');
-  		if (nostealth) {
+  		if (!stealthmode) {
   			document.title = "DDD chat";
   			messagecount = 0;
   		}
@@ -272,9 +284,18 @@
       if (nametitle) nametitle.remove();
     }
 	if (localStorage.getItem("enterchat")) {window.appInstance.enterChat()};
-
     // enable Framework7 dark theme class if desired
     document.documentElement.classList.add('theme-dark');
+    if (stealthmode == "false") {
+		console.log('set title')
+  		var messagecount = 0
+  		document.title = "DDD chat"
+  		let link = document.querySelector("link[rel~='icon']");
+  		link.href = "img/logochat.png"
+  	}
+    console.log(stealthmode)
+    stealthmode = localStorage.getItem("stealthmode")
   }, false);
+  
 
 })();

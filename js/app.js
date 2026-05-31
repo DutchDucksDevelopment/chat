@@ -63,7 +63,7 @@
     if (room) {
       pubnub.subscribe({ channels: [room] });
 
-      pubnub.history({ channel: room, count: 100 }, function (status, response) {
+      pubnub.history({ channel: room, count: 200 }, function (status, response) {
         var history = response && response.messages ? response.messages : [];
         for (var i = 0; i < history.length; i++) {
           var entry = history[i].entry || {};
@@ -96,7 +96,9 @@
           let h = now.getHours();
           const ampm = h >= 12 ? 'PM' : 'AM';
           h = h % 12 || 12;
-          let time = `${pad2(h)}:${pad2(now.getMinutes())} ${ampm}`;
+		  const fmt = new Intl.DateTimeFormat(undefined, { day: '2-digit', month: 'short' });
+	      let date =fmt.format(now).replace(' ', ' '); // e.g. "31, May"
+          let time = `${date}, ${pad2(h)}:${pad2(now.getMinutes())} ${ampm}`;
 
 
           pubnub.publish({

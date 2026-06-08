@@ -8,7 +8,7 @@
     publishKey: 'demo',
     subscribeKey: 'demo'
   });
-  var stealthmode = localStorage.getItem("stealthmode")
+  var stealthmode = localStorage.getItem("stealthmode");
   var states = {
     name: '',
     msgs: []
@@ -26,7 +26,14 @@
           if (skipNames.indexOf(sender.toLowerCase()) !== -1) return;
         } catch (e) { /* ignore */ }
         messagecount = messagecount + 1
-		if (!stealthmode && !document.hasFocus()) {document.title = `(${messagecount}) DDD chat`}
+        console.log(messagecount)
+        console.log(stealthmode)
+        console.log(document.hidden)
+        console.log(document.hasFocus())
+		if (stealthmode && !document.hasFocus()) {
+		  console.log("jan")
+  		  document.title = `(${messagecount}) DDD chat`;
+		}
         var type = sender === states.name ? 'sent' : 'received';
         var displayName = type === 'sent' ? states.name : sender;
         states.msgs.push({ name: `${msg.time} | ${displayName}`, text: msg.text, type: type });
@@ -219,7 +226,7 @@
         	if (stealthmode == "true") {
         		localStorage.setItem("stealthmode", false)
         		console.log("google")
-        		var messagecount = 0
+        		messagecount = 0
   				document.title = "DDD chat"
   				let link = document.querySelector("link[rel~='icon']");
   				link.href = "img/logochat.png"	
@@ -264,7 +271,7 @@
     initVue();
 	window.addEventListener('focus', () => {
   		console.log('window focused');
-  		if (!stealthmode) {
+  		if (stealthmode) {
   			document.title = "DDD chat";
   			messagecount = 0;
   		}
@@ -287,7 +294,7 @@
     document.documentElement.classList.add('theme-dark');
     if (stealthmode == "false") {
 		console.log('set title')
-  		var messagecount = 0
+  		messagecount = 0
   		document.title = "DDD chat"
   		let link = document.querySelector("link[rel~='icon']");
   		link.href = "img/logochat.png"

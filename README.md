@@ -7,3 +7,4 @@ domains:
 - [ddd-chat.pages.dev](https://ddd-chat.pages.dev/)
 - [chat.dutchducksdevelopment.workers.dev](https://chat.dutchducksdevelopment.workers.dev/)
 - [dutchducksdevelopment.github.io/chat](https://dutchducksdevelopment.github.io/chat/)
+- [ddd-chat.vercel.app](https://ddd-chat.vercel.app)

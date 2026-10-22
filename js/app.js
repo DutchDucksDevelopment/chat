@@ -2,7 +2,10 @@
   'use strict';
   window.appInstance = null;
   const params = new URLSearchParams(window.location.search);
-  const room = params.get('room');
+  let room = params.get('room');
+  if (!room) {
+	  room = "DDD Chat"
+  }
   let nameparam = params.get('name');
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));
@@ -123,7 +126,8 @@
         }
       });
     } else {
-      console.warn('No room specified; skipping PubNub subscribe/history.');
+	  console.log("[debug] no room")
+	  room = "DDD Chat"
     }
   }
 
@@ -224,7 +228,6 @@
 		  console.log("[debug] enterchat pressed")
           this.name = document.getElementById("nameinput").value || '';
           if (this.name.trim().length === 0) {
-            alert('Please enter your name');
             return false;
           }
           if (!room) {

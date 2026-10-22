@@ -18,6 +18,14 @@
     name: '',
     msgs: []
   };
+
+  function formatMessageTime(timestamp) {
+    return new Intl.DateTimeFormat(undefined, {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    }).format(new Date(timestamp));
+  }
+
   const style = document.createElement("style");
   style.textContent = `
 :root {
@@ -81,7 +89,10 @@
 		}
         var type = sender === states.name ? 'sent' : 'received';
         var displayName = type === 'sent' ? states.name : sender;
-        states.msgs.push({ name: `${msg.time} | ${displayName}`, text: msg.text, type: type });
+        var time = msg.timestamp
+          ? formatMessageTime(msg.timestamp)
+          : (msg.time || '');
+        states.msgs.push({ name: time ? `${time} | ${displayName}` : displayName, text: msg.text, type: type });
         // Browser notification: focus already-open window/tab on click
         if (Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
           try {
@@ -121,8 +132,11 @@
             if (skipNames.indexOf(sender.toLowerCase()) !== -1) continue;
           } catch (e) {}
           var type = sender === states.name ? 'sent' : 'received';
-          if (!entry.time) {states.msgs.push({ name: sender, text: entry.text, type: type })}
-          else {states.msgs.push({ name: `${entry.time} | ${sender}`, text: entry.text, type: type })};
+          var time = entry.timestamp
+            ? formatMessageTime(entry.timestamp)
+            : (entry.time || '');
+          if (!time) {states.msgs.push({ name: sender, text: entry.text, type: type })}
+          else {states.msgs.push({ name: `${time} | ${sender}`, text: entry.text, type: type })};
         }
       });
     } else {
@@ -142,14 +156,7 @@
       methods: {
         onSend: function (text, clear) {
           if (!text || text.trim().length === 0) return;
-		  const pad2 = n => String(n).padStart(2, '0');
-          let now = new Date();
-          let h = now.getHours();
-          const ampm = h >= 12 ? 'PM' : 'AM';
-          h = h % 12 || 12;
-		  const fmt = new Intl.DateTimeFormat(undefined, { day: '2-digit', month: 'short' });
-	      let date =fmt.format(now).replace(' ', ' '); // e.g. "31, May"
-          let time = `${date}, ${pad2(h)}:${pad2(now.getMinutes())} ${ampm}`;
+		  const timestamp = new Date().toISOString();
 
 
           pubnub.publish({
@@ -157,7 +164,7 @@
             message: {
               text: text,
               name: this.name,
-              time: time,
+              timestamp: timestamp,
             }
           });
           if (typeof clear === 'function') clear();

@@ -3,7 +3,9 @@
   window.appInstance = null;
   const params = new URLSearchParams(window.location.search);
   const room = params.get('room');
+  let nameparam = params.get('name');
   console.log('[debug] room:', room);
+  console.log('[debug] name:', nameparam);
   var pubnub = new PubNub({
     publishKey: 'pub-c-178b19ef-30ce-48c9-8885-5ba42c6702a1',
     subscribeKey: 'sub-c-1147d9ae-48c7-4568-a362-cbff1519b83f'
@@ -179,7 +181,14 @@
       },
       methods: {
         enterChat: function () {
+		  this.nameparam = params.get('name');
           this.name = document.getElementById("nameinput").value || '';
+          if (this.nameparam) {
+			  console.log('[debug] nameparam present');
+			  name = this.nameparam;
+			  localStorage.setItem("name", this.name);
+			  document.getElementById("nameinput").value = this.nameparam;
+		  }
           if (this.name.trim().length === 0) {
             alert('Please enter your name');
             return false;

@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-
-<head data-force-dark-border="true">
+<html style="--force-dark-brightness: 100%; --force-dark-contrast: 126%; --force-dark-sepia: 0%;" class="pixel-ratio-1 watch-active-state theme-dark" data-force-dark-filter="true"><head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="icon" type="image/png" sizes="32x32" href="img/logochat.png">
-  <title data-force-dark-border="true">DDD chat</title>
+  <title>DDD chat</title>
 
   <!-- Scripts -->
   <script src="cordova.js"></script>
@@ -13,7 +11,7 @@
   <script src="js/lib/framework7.min.js"></script>
   <script src="js/lib/vue.min.js"></script>
   <script src="js/lib/framework7-vue.min.js"></script>
-  <script src="js/app.js" defer=""></script>
+  <script src="js/app.js"></script>
   <!-- End scripts -->
 
   <!-- Styles -->
@@ -29,145 +27,48 @@
         '<link rel="stylesheet" href="css/framework7.ios.colors.min.css">'
       );
     }
-  </script><link rel="stylesheet" href="css/framework7.ios.min.css"><link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+  </script><link rel="stylesheet" href="css/framework7.ios.min.css"><link rel="stylesheet" href="css/framework7.ios.colors.min.css"><link rel="stylesheet" href="css/framework7.ios.min.css"><link rel="stylesheet" href="css/framework7.ios.colors.min.css">
   <link rel="stylesheet" href="css/app2.css">
-<style id="__force_dark_mode__">
-    :root[data-force-dark-mode="css"] {
+<style>
+    :root {
       color-scheme: dark !important;
-      --force-dark-bg: #0f1115;
-      --force-dark-surface: #171a20;
-      --force-dark-surface-soft: #1d222a;
-      --force-dark-elevated: #242a33;
-      --force-dark-text: #e8eaed;
-      --force-dark-muted: #b8bec7;
-      --force-dark-border: #343b46;
-      --force-dark-link: #8ab4f8;
-      --force-dark-input: #151922;
-      --force-dark-selection: #34517d;
     }
 
-    :root[data-force-dark-mode="css"],
-    :root[data-force-dark-mode="css"] body {
-      background-color: var(--force-dark-bg) !important;
-      color: var(--force-dark-text) !important;
+    html {
+      background-color: #121212 !important;
+      filter: invert(0.92) hue-rotate(180deg) brightness(var(--force-dark-brightness, 100%)) contrast(var(--force-dark-contrast, 100%)) sepia(var(--force-dark-sepia, 0%)) !important;
     }
 
-    :root[data-force-dark-mode="css"] [data-force-dark-surface="strong"] {
-      background-color: var(--force-dark-surface) !important;
+    /*
+     * Known limitation: this unconditionally re-inverts every image/canvas
+     * regardless of whether the site already inverted it itself (e.g. an
+     * icon with a Tailwind "dark:invert" class driven by the real system
+     * prefers-color-scheme). On those sites this double-inverts the icon
+     * back to its original (now-invisible) color. See README's Theme
+     * Engines section. No general fix without risking the common case this
+     * rule exists for: un-inverting ordinary images on the vast majority
+     * of sites that don't do their own conditional icon inversion.
+     */
+    img,
+    video,
+    canvas,
+    picture,
+    embed,
+    object,
+    [style*="background-image"] {
+      filter: invert(1) hue-rotate(180deg) !important;
     }
 
-    :root[data-force-dark-mode="css"] [data-force-dark-surface="soft"] {
-      background-color: var(--force-dark-surface-soft) !important;
-    }
-
-    :root[data-force-dark-mode="css"] :is(dialog, [popover], [role="dialog"], [role="menu"], [role="listbox"], [role="tooltip"]) {
-      background-color: var(--force-dark-elevated) !important;
-      color: var(--force-dark-text) !important;
-      border-color: var(--force-dark-border) !important;
-    }
-
-    :root[data-force-dark-mode="css"] [data-force-dark-text="true"] {
-      color: var(--force-dark-text) !important;
-    }
-
-    :root[data-force-dark-mode="css"] :is(p, li, td, th, span, dt, dd) > :is(a, [role="link"]):not([data-force-dark-keep], [data-force-dark-keep] *),
-    :root[data-force-dark-mode="css"] :is(a, [role="link"]):not(:has(div, p, span, h1, h2, h3, h4, h5, h6)):not([data-force-dark-keep], [data-force-dark-keep] *) {
-      color: var(--force-dark-link) !important;
-    }
-
-    :root[data-force-dark-mode="css"] [data-force-dark-border="true"],
-    :root[data-force-dark-mode="css"] :is(table, thead, tbody, tfoot, tr, td, th, hr) {
-      border-color: var(--force-dark-border) !important;
-      outline-color: var(--force-dark-border) !important;
-    }
-
-    :root[data-force-dark-mode="css"] :is(button, input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]):not([type="file"]), textarea, select, option, optgroup):not([data-force-dark-keep], [data-force-dark-keep] *) {
-      background-color: var(--force-dark-input) !important;
-      color: var(--force-dark-text) !important;
-      border-color: var(--force-dark-border) !important;
-      caret-color: var(--force-dark-text) !important;
-    }
-
-    :root[data-force-dark-mode="css"] :is(input, textarea)::placeholder {
-      color: var(--force-dark-muted) !important;
-      opacity: 1 !important;
-    }
-
-    :root[data-force-dark-mode="css"] :is(code, pre, kbd, samp):not([data-force-dark-keep], [data-force-dark-keep] *) {
-      background-color: var(--force-dark-elevated) !important;
-      color: var(--force-dark-text) !important;
-    }
-
-    :root[data-force-dark-mode="css"] ::selection {
-      background-color: var(--force-dark-selection) !important;
-      color: #ffffff !important;
-    }
-
-    :root[data-force-dark-mode="css"] :is(img, picture, video, canvas, iframe, embed, object, svg) {
+    /* Prevent double inversion on media nested inside picture or video */
+    picture img,
+    picture video,
+    video img {
       filter: none !important;
-      background-color: transparent !important;
-    }
-
-    :root[data-force-dark-mode="css"][data-force-dark-image-dim] :is(img, video):not([data-force-dark-image="invert"]) {
-      filter: brightness(var(--force-dark-image-brightness, 100%)) !important;
-    }
-
-    :root[data-force-dark-mode="css"] [data-force-dark-image="invert"] {
-      filter: invert(0.9) hue-rotate(180deg) !important;
-    }
-
-    :root[data-force-dark-mode="css"] [data-force-dark-keep] {
-      background-color: #ffffff !important;
-      color: #111111 !important;
-    }
-
-    :root[data-force-dark-mode="css"] [data-force-dark-keep] * {
-      color: inherit !important;
-    }
-
-    /* keep-light subtrees are exempt from the link, control and code rules above
-       (their :not guards); links get a readable colour for the white panel. */
-    :root[data-force-dark-mode="css"] [data-force-dark-keep] :is(a, [role="link"]) {
-      color: #0b57d0 !important;
-    }
-
-    :root[data-force-dark-mode="css"][data-force-dark-filter="true"] {
-      filter: brightness(var(--force-dark-brightness, 100%)) contrast(var(--force-dark-contrast, 100%)) sepia(var(--force-dark-sepia, 0%)) !important;
     }
   </style></head>
 
 <body>
-  <div id="app">
-    <f7-statusbar></f7-statusbar>
-
-    <f7-views>
-      <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
-        <f7-navbar back-link="Back" sliding>
-          <f7-nav-center id="title" sliding>chat</f7-nav-center>
-        </f7-navbar>
-
-        <f7-pages>
-          <f7-page>
-            <f7-block-title id="nametitle">Name:</f7-block-title>
-            <f7-list id="namediv">
-              <f7-list-item>
-                <f7-input id='nameinput' @keyup.enter="enterChat" type="text" placeholder="Your name" v-model:value="name" />
-              </f7-list-item>
-              <f7-list-button id="enterbutton" v-on:click="enterChat">Enter chat</f7-list-button>
-            </f7-list>
-            <f7-block-title id="roomtitle">Room:</f7-block-title>
-            <f7-list>
-              <f7-list-item>
-                <f7-input id='roominput' @keyup.enter="setroom" type="text" placeholder="Your room id"/>
-              </f7-list-item>
-              <f7-list-button id="joinbutton" v-on:click="setroom">Join room</f7-list-button>
-            </f7-list>
-            <f7-button @click="openstealth">Toggle stealth mode</f7-button>
-          </f7-page>
-        </f7-pages>
-      </f7-view>
-    </f7-views>
-  </div>
+  <div id="app" class="framework7-root"><div class="statusbar-overlay"></div> <div class="views"><div class="view view-main navbar-through" id="main-view" data-page="null"><div class="navbar"> <div class="navbar-inner navbar-on-center"><div class="left sliding"><a href="#" class="back link"><i class="icon icon-back"></i><span class="">Back</span></a> </div> <!----> <div class="center sliding" id="title" style="left: -204px;">piracy</div></div> </div> <div class="pages"><div class="page page-on-center"><div class="page-content"><div class="content-block-title" id="nametitle">Name:</div> <div class="list-block" id="namediv"><ul><li class=""><div class="item-content"><div class="item-inner"><div class="item-input"><input type="text" placeholder="Your name" id="nameinput" value="DDD_Official"></div></div></div></li> <li id="enterbutton"><a href="#" class="item-link list-button">Enter chat</a></li></ul></div> <div class="content-block-title" id="roomtitle">Room:</div> <div class="list-block"><ul><li class=""><div class="item-content"><div class="item-inner"><div class="item-input"><input type="text" placeholder="Your room id" id="roominput"></div></div></div></li> <li id="joinbutton"><a href="#" class="item-link list-button">Join room</a></li></ul></div> <a href="#" class="button">Toggle stealth mode</a></div></div></div></div></div></div>
 
   <!-- Chat Page Template -->
   <template id="page-chat">
@@ -180,6 +81,7 @@
       <f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit"></f7-messagebar>
     </f7-page>
   </template>
-</body>
 
-</html>
+
+
+</body></html>

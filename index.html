@@ -3,8 +3,11 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="theme-color" content="#141414">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/img/icon-192x192.png">
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" sizes="32x32" href="./img/logogoogle.png">
   <title>Google</title>
 
@@ -30,6 +33,9 @@
         '<link rel="stylesheet" href="css/framework7.ios.colors.min.css">'
       );
     }
+	if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+		Notification.requestPermission();
+	}
   </script>
   <link rel="stylesheet" href="css/app2.css">
 </head>

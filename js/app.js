@@ -31,7 +31,12 @@
 :root {
       color-scheme: dark !important;
     }
-
+    
+    .emoji {
+      filter: none !important;
+      background-color: transparent !important;
+    }
+    
     html {
       background-color: #121212 !important;
       filter: invert(0.92) hue-rotate(180deg) brightness(var(--force-dark-brightness, 100%)) contrast(var(--force-dark-contrast, 100%)) sepia(var(--force-dark-sepia, 0%)) !important;
@@ -76,11 +81,16 @@
 
     wrapper.querySelectorAll("a").forEach(link => {
       link.classList.add("prevent-router");
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
+      link.target = "_blank"; // Opens link in a new tab
+      link.rel = "noopener noreferrer"; // Security best practice
+      link.onclick = function(e) {
+        e.preventDefault();
+        window.open(this.href, "_blank");
+      }
     });
+
     return wrapper.innerHTML;
-	}
+  }
   function initPubNub() {
     pubnub.addListener({
       message: function (data) {
@@ -158,7 +168,6 @@
           else {states.msgs.push({ name: `${time} | ${sender}`, text: entry.text, type: type })};
           window.appInstance.$nextTick(() => {
             const elements = document.getElementsByClassName('message-text');
-            console.log(elements);
             for (let i = 0; i < elements.length; i++) {
               const element = elements[i];
               element.innerHTML = renderMarkdown(element.innerHTML);

@@ -161,8 +161,6 @@
             console.log(elements);
             for (let i = 0; i < elements.length; i++) {
               const element = elements[i];
-              console.log(element);
-              console.log(element.innerHTML)
               element.innerHTML = renderMarkdown(element.innerHTML);
             }
           });

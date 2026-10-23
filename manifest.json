@@ -20,8 +20,8 @@
       "width": 192,
       "is512x512": false,
       "is256x256": false,
-      "is192x192": true,
-    }
+      "is192x192": true
+    },
     {
       "src": "https://ddd-chat.vercel.app/img/icon-512x512.png",
       "type": "image/png",
@@ -33,7 +33,7 @@
       "width": 192,
       "is512x512": true,
       "is256x256": false,
-      "is192x192": false,
+      "is192x192": false
     }
   ],
   "id": "com.ddd.chat",

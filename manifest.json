@@ -1,27 +1,46 @@
 {
-  "name": "DDD Chat",
-  "short_name": "DDD Chat",
-  "description": "A simple end-to-end encrypted chat room",
-  "start_url": "/",
-  "display": "standalone",
   "background_color": "#141414",
-  "theme_color": "#202024",
-  "permissions": ["notifications"]
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "DDD Chat",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "DDD Chat",
+  "start_url": "/",
+  "theme_color": "#141414",
   "icons": [
     {
-      "src": "img/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "img/icon-192x192.png",
+      "src": "https://ddd-chat.vercel.app/img/icon-192x192.png",
+      "type": "image/png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "img/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 192,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": true
     }
+    {
+      "src": "https://ddd-chat.vercel.app/img/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 192,
+      "is512x512": true,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "com.ddd.chat",
+  "description": "Simple end-to-end encrypted chat app",
+  "lang": "en",
+  "categories": [
+    "social",
+    "social networking"
   ]
 }

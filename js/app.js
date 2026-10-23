@@ -124,6 +124,7 @@
       pubnub.subscribe({ channels: [room] });
 
       pubnub.history({ channel: room, count: 200 }, function (status, response) {
+		console.log("history fetched")
         var history = response && response.messages ? response.messages : [];
         for (var i = 0; i < history.length; i++) {
           var entry = history[i].entry || {};

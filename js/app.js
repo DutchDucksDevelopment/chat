@@ -69,7 +69,18 @@
   if (!stealthmode) {localStorage.setItem("stealthmode", false)}
   var skipNames = []; //Blacklist
   var messagecount = 0
+  function renderMarkdown(text) {
+    const safeHtml = DOMPurify.sanitize(marked.parse(text));
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = safeHtml;
 
+    wrapper.querySelectorAll("a").forEach(link => {
+      link.classList.add("prevent-router");
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    });
+    return wrapper.innerHTML;
+	}
   function initPubNub() {
     pubnub.addListener({
       message: function (data) {
@@ -92,7 +103,14 @@
         var time = msg.timestamp
           ? formatMessageTime(msg.timestamp)
           : (msg.time || '');
-        states.msgs.push({ name: time ? `${time} | ${displayName}` : displayName, text: msg.text, type: type });
+        states.msgs.push({ name: time ? `${time} | ${displayName}` : displayName, text: renderMarkdown(msg.text), type: type });
+        window.appInstance.$nextTick(() => {
+          const elements = document.querySelectorAll(".message-text");
+          const lastElement = elements[elements.length - 1];
+          if (lastElement) {
+            lastElement.innerHTML = renderMarkdown(msg.text);
+          }   
+        });
         // Browser notification: focus already-open window/tab on click
         if (Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
           try {
@@ -138,6 +156,16 @@
             : (entry.time || '');
           if (!time) {states.msgs.push({ name: sender, text: entry.text, type: type })}
           else {states.msgs.push({ name: `${time} | ${sender}`, text: entry.text, type: type })};
+          window.appInstance.$nextTick(() => {
+            const elements = document.getElementsByClassName('message-text');
+            console.log(elements);
+            for (let i = 0; i < elements.length; i++) {
+              const element = elements[i];
+              console.log(element);
+              console.log(element.innerHTML)
+              element.innerHTML = renderMarkdown(element.innerHTML);
+            }
+          });
         }
       });
     } else {

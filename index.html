@@ -75,16 +75,16 @@
     </f7-views>
   </div>
 
-<!-- Chat Page Template -->
-<template id="page-chat">
-  <f7-page style="color: black" class="page-chat">
-    <f7-messages>
-      <f7-message v-for="(msg, idx) in msgs" :key="idx" :name="msg.name" :text="msg.text" :type="msg.type"></f7-message>
-    </f7-messages>
+  <!-- Chat Page Template -->
+  <template id="page-chat">
+    <f7-page style="color: black" class="page-chat">
+      <f7-messages>
+        <f7-message v-for="(msg, idx) in msgs" :key="idx" :name="msg.name" :text="msg.text" :type="msg.type"></f7-message>
+      </f7-messages>
 
-    <!-- messagebar: keep submit handler and class to find textarea -->
-    <f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit"></f7-messagebar>
-  </f7-page>
-</template>
+      <!-- messagebar: keep submit handler and class to find textarea -->
+      <f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit"></f7-messagebar>
+    </f7-page>
+  </template>
 </body>
 </html>

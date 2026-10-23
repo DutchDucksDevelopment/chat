@@ -37,19 +37,10 @@
       background-color: transparent !important;
     }
     
-    html:not(.emoji) {
+    html {
       background-color: #121212 !important;
-      filter: invert(0.92) hue-rotate(180deg) brightness(var(--force-dark-brightness, 100%)) contrast(var(--force-dark-contrast, 100%)) sepia(var(--force-dark-sepia, 0%));
+      filter: invert(0.92) hue-rotate(180deg) brightness(var(--force-dark-brightness, 100%)) contrast(var(--force-dark-contrast, 100%)) sepia(var(--force-dark-sepia, 0%)) !important;
     }
-    
-    .message-text .emoji {
-      filter: none !important;
-      background-color: transparent !important;
-      color: inherit !important;
-      font-size: inherit !important;
-      vertical-align: baseline !important;
-    }
-
 
     /*
      * Known limitation: this unconditionally re-inverts every image/canvas
@@ -84,24 +75,22 @@
   var skipNames = []; //Blacklist
   var messagecount = 0
   function renderMarkdown(text) {
-    const safeHtml = DOMPurify.sanitize(marked.parse(text || ""));
+    const safeHtml = DOMPurify.sanitize(marked.parse(text));
     const wrapper = document.createElement("div");
     wrapper.innerHTML = safeHtml;
 
     wrapper.querySelectorAll("a").forEach(link => {
       link.classList.add("prevent-router");
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
+      link.target = "_blank"; // Opens link in a new tab
+      link.rel = "noopener noreferrer"; // Security best practice
       link.onclick = function(e) {
         e.preventDefault();
         window.open(this.href, "_blank");
-      };
+      }
     });
 
     return wrapper.innerHTML;
   }
-
-
   function initPubNub() {
     pubnub.addListener({
       message: function (data) {
@@ -124,7 +113,14 @@
         var time = msg.timestamp
           ? formatMessageTime(msg.timestamp)
           : (msg.time || '');
-        states.msgs.push({ name: time ? `${time} | ${displayName}` : displayName, text: msg.text, type: type }); 
+        states.msgs.push({ name: time ? `${time} | ${displayName}` : displayName, text: renderMarkdown(msg.text), type: type });
+        window.appInstance.$nextTick(() => {
+          const elements = document.querySelectorAll(".message-text");
+          const lastElement = elements[elements.length - 1];
+          if (lastElement) {
+            lastElement.innerHTML = renderMarkdown(msg.text);
+          }   
+        });
         // Browser notification: focus already-open window/tab on click
         if (Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
           try {
@@ -174,8 +170,7 @@
             const elements = document.getElementsByClassName('message-text');
             for (let i = 0; i < elements.length; i++) {
               const element = elements[i];
-              console.log(element.innerHTML.replace(/['"]/g, "")
-              element.innerHTML = element.innerHTML.replace(/['"]/g, '');
+              element.innerHTML = renderMarkdown(element.innerHTML);
             }
           });
         }
@@ -203,7 +198,7 @@
           pubnub.publish({
             channel: room,
             message: {
-              text: renderMarkdown(text),
+              text: text,
               name: this.name,
               timestamp: timestamp,
             }

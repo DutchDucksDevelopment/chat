@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="theme-color" content="#141414">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/img/icon-192x192.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="./img/logogoogle.png">
+  <title>Google</title>
+
+  <!-- Scripts -->
+  <script src="cordova.js"></script>
+  <script src="https://unpkg.com/@giphy/js-brand@latest/dist/giphy-brand.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.0.11.min.js"></script>
+  <script src="js/lib/framework7.min.js"></script>
+  <script src="js/lib/vue.min.js"></script>
+  <script src="js/lib/framework7-vue.min.js"></script>
+  <script src="js/app.js" defer></script>
+  <!-- End scripts -->
+
+  <!-- Styles -->
+  <script>
+    if (Framework7.prototype.device && Framework7.prototype.device.android) {
+      document.write(
+        '<link rel="stylesheet" href="css/framework7.material.min.css">' +
+        '<link rel="stylesheet" href="css/framework7.material.colors.min.css">'
+      );
+    } else {
+      document.write(
+        '<link rel="stylesheet" href="css/framework7.ios.min.css">' +
+        '<link rel="stylesheet" href="css/framework7.ios.colors.min.css">'
+      );
+    }
+	if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+		Notification.requestPermission();
+	}
+  </script>
+  <link rel="stylesheet" href="css/app2.css">
+</head>
+
+<body>
+  <div id="app">
+    <f7-statusbar></f7-statusbar>
+
+    <f7-views>
+      <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
+        <f7-navbar back-link="Back" sliding>
+          <f7-nav-center id="title" sliding>chat</f7-nav-center>
+        </f7-navbar>
+
+        <f7-pages>
+          <f7-page>
+            <f7-block-title id="nametitle">Name:</f7-block-title>
+            <f7-list id="namediv">
+              <f7-list-item>
+                <f7-input id='nameinput' @keyup.enter="enterChat" type="text" placeholder="Your name" v-model:value="name" />
+              </f7-list-item>
+              <f7-list-button id="enterbutton" v-on:click="enterChat">Enter chat</f7-list-button>
+            </f7-list>
+            <f7-block-title id="roomtitle">Room:</f7-block-title>
+            <f7-list>
+              <f7-list-item>
+                <f7-input id='roominput' @keyup.enter="setroom" type="text" placeholder="Your room id"/>
+              </f7-list-item>
+              <f7-list-button id="joinbutton" v-on:click="setroom">Join room</f7-list-button>
+            </f7-list>
+            <f7-button @click="openstealth">Toggle stealth mode</f7-button>
+          </f7-page>
+        </f7-pages>
+      </f7-view>
+    </f7-views>
+  </div>
+
+  <!-- Chat Page Template -->
+  <template id="page-chat">
+    <f7-page style="color: black" class="page-chat">
+      <f7-messages>
+        <f7-message v-for="(msg, idx) in msgs" :key="idx" :name="msg.name" :text="msg.text" :type="msg.type"></f7-message>
+      </f7-messages>
+
+      <!-- messagebar: keep submit handler and class to find textarea -->
+			<f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit">
+				<f7-messagebar-sheet style="padding: 10px; !important">
+					<f7-button@click="openurl()"><li style="list-style-type: none;" class="app-messagebar">Paste Image Url</li></f7-button>
+				</f7-messagebar-sheet>
+			</f7-messagebar>
+    </f7-page>
+  </template>
+</body>
+</html>

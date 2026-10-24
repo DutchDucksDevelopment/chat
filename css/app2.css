@@ -1,0 +1,16 @@
+:root {
+  --f7-theme-color: #1e88e5;
+  --f7-theme-color-dark: #1565c0;
+
+  /* dark background/foreground */
+  --f7-bg-color: #121212;
+  --f7-text-color: #e0e0e0;
+  --f7-card-bg: #1e1e1e;
+  --f7-navbar-bg: #1a1a1a;
+  --f7-toolbar-bg: #161616;
+  --f7-list-item-bg: transparent;
+  --f7-border-color: #272727;
+  --f7-field-bg: #1b1b1b;
+  --f7-input-text-color: #e0e0e0;
+  --f7-ripple-color: rgba(255,255,255,0.08);
+}

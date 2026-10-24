@@ -2,7 +2,7 @@ name: Build and Deploy
 on: [push]
 
 permissions:
-  contents: write  # Required for pushing to gh-pages branch
+  contents: write
 
 jobs:
   build:
@@ -10,17 +10,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug - Show app.js before
-        run: cat js/app.js
+      - name: Debug - Show app.js before replacement
+        run: echo "=== BEFORE ===" && cat js/app.js
 
       - name: Replace PubNub keys
         run: |
-          # Replace in app.js
-          sed -i "s/PUBNUB_PUBLISH_KEY_PLACEHOLDER/${{ secrets.PUBNUB_PUBLISH_KEY }}/g" js/app.js
-          sed -i "s/PUBNUB_SUBSCRIBE_KEY_PLACEHOLDER/${{ secrets.PUBNUB_SUBSCRIBE_KEY }}/g" js/app.js
+          sed -i "s/PUBNUB_PUBLISH_KEY_PLACEHOLDER/${{ secrets.PUBKEY }}/g" js/app.js
+          sed -i "s/PUBNUB_SUBSCRIBE_KEY_PLACEHOLDER/${{ secrets.SUBKEY }}/g" js/app.js
 
-      - name: Debug - Show app.js after
-        run: cat js/app.js
+      - name: Debug - Show app.js after replacement
+        run: echo "=== AFTER ===" && cat js/app.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

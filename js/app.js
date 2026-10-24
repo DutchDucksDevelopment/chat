@@ -9,16 +9,20 @@
   let nameparam = params.get('name');
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));
+  async function fetchTextFile(url) {
+		const response = await fetch(url);
+		return await response.text();
+	}
   var pubnub = new PubNub({
-    publishKey: import.meta.env.PUBKEY,
-    subscribeKey: import.meta.env.SUBKEY
+    publishKey: fetchTextFile("pub.txt"),
+    subscribeKey: fetchTextFile("sub.txt")
   });
   var stealthmode = localStorage.getItem("stealthmode");
   var states = {
     name: '',
     msgs: []
   };
-
+  
   function formatMessageTime(timestamp) {
     return new Intl.DateTimeFormat(undefined, {
       dateStyle: 'medium',

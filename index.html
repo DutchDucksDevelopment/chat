@@ -13,6 +13,7 @@
 
   <!-- Scripts -->
   <script src="cordova.js"></script>
+  <script src="https://unpkg.com/@giphy/js-brand@latest/dist/giphy-brand.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
   <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.0.11.min.js"></script>
@@ -85,7 +86,7 @@
       <!-- messagebar: keep submit handler and class to find textarea -->
 			<f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit">
 				<f7-messagebar-sheet style="padding: 10px; !important">
-					<f7-button@click="openurl()"><li style="size: 10px;" class="app-messagebar">Paste Image Url</li></f7-button>
+					<f7-button@click="openurl()"><li style="list-style-type: none;" class="app-messagebar">Paste Image Url</li></f7-button>
 				</f7-messagebar-sheet>
 			</f7-messagebar>
     </f7-page>

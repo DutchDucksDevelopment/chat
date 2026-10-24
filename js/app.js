@@ -75,12 +75,13 @@
   var skipNames = []; //Name Blacklist
   var skipText = [
   `Want to make big money? Join our discord at: https://discord.com/channels/1458813567179559004/1458823680606867550`,
-    `Just made $4,000 in a single day at 18! No hacks, no luck, just the exact strategy I followed. A few months ago, I was wondering how I could make money online. I did my research, watched videos, and made plenty of mistakes until I finally found the right strategy. If I can do it at 18, you can too. If you want to know the strategy, go to https://discord.com/channels/1470079289486610505/1523419484629630996`,
+  `Just made $4,000 in a single day at 18! No hacks, no luck, just the exact strategy I followed. A few months ago, I was wondering how I could make money online. I did my research, watched videos, and made plenty of mistakes until I finally found the right strategy. If I can do it at 18, you can too. If you want to know the strategy, go to https://discord.com/channels/1470079289486610505/1523419484629630996`,
+  ``  
   ] // Message Blacklist
-  var skipTime = [
-  `2026-10-23T14:32:32.035Z`,
-  `2026-10-23T14:39:01.668Z`
-  ] //Timestamp Blacklist to help validate message
+  //var skipTime = [
+  //`2026-10-23T14:32:32.035Z`,
+  //`2026-10-23T14:39:01.668Z`
+  //]
   var messagecount = 0
   function renderMarkdown(text) {
     const safeHtml = DOMPurify.sanitize(marked.parse(text));
@@ -181,7 +182,7 @@
           var entry = history[i].entry || {};
           var sender = entry.name || '';
           try {
-            if (skipText.indexOf(entry.text) !== -1 && skipTime.indexOf(entry.timestamp) !== -1) continue
+            if (skipText.indexOf(entry.text) !== -1) continue
             if (skipNames.indexOf(sender.toLowerCase()) !== -1) continue;
           } catch (e) {}
           var type = sender === states.name ? 'sent' : 'received';

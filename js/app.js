@@ -99,6 +99,21 @@
 
     return wrapper.innerHTML;
   }
+  
+  function messageCleanUp(text) {
+    console.log(text);
+    if (text.startsWith("<p><img")) {
+      return "[Image]"
+    }
+    const tempdiv = document.createElement("div");
+    tempdiv.style.display = "none";
+    tempdiv.innerHTML = text;
+    console.log(tempdiv.textContent)
+    const textC = tempdiv.textContent
+    tempdiv.remove()
+    return tempdiv.textContent;
+  }
+
   function initPubNub() {
     pubnub.addListener({
       message: function (data) {
@@ -133,7 +148,7 @@
         if (Notification.permission === 'granted' && (document.hidden || !document.hasFocus())) {
           try {
             const n = new Notification(room + " | " + sender, {
-              body: msg.text,
+              body: messageCleanUp(renderMarkdown(msg.text)),
               // icon: '/icons/msg.png' // optional
             });
             n.onclick = function () {

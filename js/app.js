@@ -5,7 +5,7 @@
   let room = params.get('room');
   if (!room) {
 	  room = "DDD Chat"
-  }
+  } //Default room
   let nameparam = params.get('name');
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));

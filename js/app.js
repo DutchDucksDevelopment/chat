@@ -9,13 +9,11 @@
   let nameparam = params.get('name');
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));
-  async function fetchTextFile(url) {
-		const response = await fetch(url);
-		return await response.text();
-	}
+	var subK = "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8"
+	var pubK = "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a"
   var pubnub = new PubNub({
-    publishKey: fetchTextFile("pub.txt"),
-    subscribeKey: fetchTextFile("sub.txt")
+    publishKey: pubK.slice(0, -1),
+    subscribeKey: subK.slice(0, -1)
   });
   var stealthmode = localStorage.getItem("stealthmode");
   var states = {

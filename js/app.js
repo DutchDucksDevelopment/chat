@@ -301,10 +301,15 @@
             alert('Join a room first');
             return false;
           }
+          if (!localStorage.getItem("enterchat") || this.name !== localStorage.getItem("name")) {
+            localStorage.setItem("name", this.name);
+            localStorage.setItem("enterchat", true);
+            window.location.reload();
+          }
           if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
       		try { Notification.requestPermission(); } catch (e) {}
       		console.log("[debug] set notification permission")
-    	  }
+        }
           var titleEl = document.getElementById("title");
           if (titleEl) titleEl.innerHTML = room;
           localStorage.setItem("name", this.name);

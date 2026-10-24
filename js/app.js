@@ -9,6 +9,7 @@
   let nameparam = params.get('name');
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));
+  // if ur some kind of hacker pls dont try to spamfetch history on these keys i dont mind because rooms are open anyways but im on pubnubs free plan cuz im broke and youre taking up lots of my api requests per month which kinda sucks ):
 	var subK = "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8"
 	var pubK = "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a"
   var pubnub = new PubNub({

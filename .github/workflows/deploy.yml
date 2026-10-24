@@ -11,15 +11,23 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Debug - Show app.js before replacement
-        run: echo "=== BEFORE ===" && cat js/app.js
+        run: |
+          echo "=== BEFORE ==="
+          cat js/app.js
 
       - name: Replace PubNub keys
         run: |
-          sed -i "s/PUBNUB_PUBLISH_KEY_PLACEHOLDER/${{ secrets.PUBKEY }}/g" js/app.js
-          sed -i "s/PUBNUB_SUBSCRIBE_KEY_PLACEHOLDER/${{ secrets.SUBKEY }}/g" js/app.js
+          # Escape special characters in secrets (if needed)
+          PUBLISH_KEY="${{ secrets.PUBNUB_PUBLISH_KEY }}"
+          SUBSCRIBE_KEY="${{ secrets.PUBNUB_SUBSCRIBE_KEY }}"
+          # Replace placeholders in app.js
+          sed -i "s/PUBNUB_PUBLISH_KEY_PLACEHOLDER/${PUBLISH_KEY}/g" js/app.js
+          sed -i "s/PUBNUB_SUBSCRIBE_KEY_PLACEHOLDER/${SUBSCRIBE_KEY}/g" js/app.js
 
       - name: Debug - Show app.js after replacement
-        run: echo "=== AFTER ===" && cat js/app.js
+        run: |
+          echo "=== AFTER ==="
+          cat js/app.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

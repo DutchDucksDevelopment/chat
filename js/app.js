@@ -101,6 +101,21 @@
     return wrapper.innerHTML;
   }
   
+  function isValidHTML(htmlString) {
+    // Trim whitespace and check if it's empty
+    const trimmed = htmlString.trim();
+    if (trimmed === '') return false;
+
+    // Create a temporary div element
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = trimmed;
+    
+    // Check if the parsed content contains any elements
+    return tempDiv.children.length > 0;
+    tempDiv.remove()
+}
+
+  
   function messageCleanUp(text) {
     console.log(text);
     if (text.startsWith("<p><img")) {
@@ -216,7 +231,7 @@
       },
       methods: {
         onSend: function (text, clear) {
-          if (!text || text.trim().length === 0) return;
+          if (!text || text.trim().length === 0 || isValidHTML(text.trim())) return;
 		  const timestamp = new Date().toISOString();
 
 
@@ -234,7 +249,7 @@
           var detail = event && event.detail ? event.detail : {};
           var value = detail.value || '';
           var clearFn = typeof detail.clear === 'function' ? detail.clear : null;
-          if (!value || value.trim().length === 0) return;
+          if (!value || value.trim().length === 0 || isValidHTML(value)) return;
           this.onSend(value, clearFn);
         },
         openurl: function (event) {

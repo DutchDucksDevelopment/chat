@@ -72,7 +72,15 @@
 
   document.head.appendChild(style);
   if (!stealthmode) {localStorage.setItem("stealthmode", false)}
-  var skipNames = []; //Blacklist
+  var skipNames = []; //Name Blacklist
+  var skipText = [
+  `Want to make big money? Join our discord at: https://discord.com/channels/1458813567179559004/1458823680606867550`,
+    `Just made $4,000 in a single day at 18! No hacks, no luck, just the exact strategy I followed. A few months ago, I was wondering how I could make money online. I did my research, watched videos, and made plenty of mistakes until I finally found the right strategy. If I can do it at 18, you can too. If you want to know the strategy, go to https://discord.com/channels/1470079289486610505/1523419484629630996`,
+  ] // Message Blacklist
+  var skipTime = [
+  `2026-10-23T14:32:32.035Z`,
+  `2026-10-23T14:39:01.668Z`
+  ] //Timestamp Blacklist to help validate message
   var messagecount = 0
   function renderMarkdown(text) {
     const safeHtml = DOMPurify.sanitize(marked.parse(text));
@@ -158,6 +166,7 @@
           var entry = history[i].entry || {};
           var sender = entry.name || '';
           try {
+            if (skipText.indexOf(entry.text) !== -1 && skipTime.indexOf(entry.timestamp) !== -1) continue
             if (skipNames.indexOf(sender.toLowerCase()) !== -1) continue;
           } catch (e) {}
           var type = sender === states.name ? 'sent' : 'received';
@@ -211,6 +220,21 @@
           var clearFn = typeof detail.clear === 'function' ? detail.clear : null;
           if (!value || value.trim().length === 0) return;
           this.onSend(value, clearFn);
+        },
+        openurl: function (event) {
+          navigator.clipboard.readText()
+          .then(imgurl => {
+            try {
+              new URL(imgurl); // Validate URL
+              this.onSend(`![](${imgurl})`);
+            } catch {
+              console.log(imgurl)
+              console.log("invalid url");
+            }
+          })
+          .catch(err => {
+            console.error("Failed to read clipboard:", err);
+          });
         }
       },
       mounted: function () {
@@ -268,7 +292,7 @@
       },
       methods: {
         enterChat: function () {
-		  console.log("[debug] enterchat pressed")
+          console.log("[debug] enterchat pressed")
           this.name = document.getElementById("nameinput").value || '';
           if (this.name.trim().length === 0) {
             return false;

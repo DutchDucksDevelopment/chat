@@ -83,7 +83,11 @@
       </f7-messages>
 
       <!-- messagebar: keep submit handler and class to find textarea -->
-      <f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit"></f7-messagebar>
+			<f7-messagebar ref="msgbar" class="app-messagebar" placeholder="Message" send-link="Send" v-on:submit="messagebarSubmit">
+				<f7-messagebar-sheet style="padding: 10px; !important">
+					<f7-button@click="openurl()"><li style="size: 10px;" class="app-messagebar">Paste Image Url</li></f7-button>
+				</f7-messagebar-sheet>
+			</f7-messagebar>
     </f7-page>
   </template>
 </body>

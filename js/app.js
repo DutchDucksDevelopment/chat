@@ -10,8 +10,8 @@
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));
   var pubnub = new PubNub({
-    publishKey: import.meta.env.VITE_PUBKEY,
-    subscribeKey: import.meta.env.VITE_SUBKEY
+    publishKey: import.meta.env.PUBKEY,
+    subscribeKey: import.meta.env.SUBKEY
   });
   var stealthmode = localStorage.getItem("stealthmode");
   var states = {

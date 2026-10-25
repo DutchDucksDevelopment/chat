@@ -9,9 +9,16 @@
   let nameparam = params.get('name');
   console.log('[debug] room:', room);
   console.log('[debug] name:', localStorage.getItem("name"));
+  var subK = ""
+  var pubK = ""
   // if ur some kind of hacker pls dont try to spamfetch history on these keys i dont mind because rooms are open anyways but im on pubnubs free plan cuz im broke and youre taking up lots of my api requests per month which kinda sucks ):
-	var subK = "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8"
-	var pubK = "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a"
+  if (!localStorage.getItem("subK")) {
+		subK = "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8"
+		pubK = "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a"
+	} else {
+		pubK = localStorage.getItem("pubK")
+		subK = localStorage.getItem("subK")
+	}
   var pubnub = new PubNub({
     publishKey: pubK.slice(0, -1),
     subscribeKey: subK.slice(0, -1)
@@ -385,6 +392,20 @@
 						window.location.reload();
 					}
 				},
+				setkeys: function () {
+					pubK = document.getElementById("pubkeyinput").value + "a"
+					subK = document.getElementById("subkeyinput").value + "8"
+					localStorage.setItem("pubK", pubK)
+					localStorage.setItem("subK", subK)
+					window.location.reload()
+				},
+				resetkeys: function () {
+					pubK = "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a"
+					subK = "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8"
+					localStorage.setItem("pubK", pubK)
+					localStorage.setItem("subK", subK)
+					window.location.reload()
+				},
         openstealth: function () {
         	var stealthmode = localStorage.getItem("stealthmode")
         	if (stealthmode == "true") {
@@ -442,6 +463,10 @@
 	});
     var nameInput = document.getElementById("nameinput");
     if (nameInput) nameInput.value = localStorage.getItem('name') || '';
+    var pubKeyInput = document.getElementById("pubkeyinput")
+    if (pubKeyInput && localStorage.getItem('pubK') != "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a") pubKeyInput.value = localStorage.getItem('pubK').slice(0, -1) || '';
+    var subKeyInput = document.getElementById("subkeyinput")
+    if (subKeyInput && localStorage.getItem('subK') != "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8") subKeyInput.value = localStorage.getItem('subK').slice(0, -1) || '';
     var roomInput = document.getElementById("roominput");
     if (roomInput) roomInput.value = room || '';
     var titleEl = document.getElementById("title");

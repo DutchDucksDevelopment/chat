@@ -375,13 +375,13 @@
         },
 				togglelight: function () {
         	var lightmode = localStorage.getItem("lightmode")
-        	if (lightmode == "true") {
-        		localStorage.setItem("lightmode", false)
-        		console.log("[debug] dark mode")
+        	if (lightmode == "false") {
+        		localStorage.setItem("lightmode", true)
+        		console.log("[debug] Light mode")
         		window.location.reload();
         	} else {
-						localStorage.setItem("lightmode", true)
-        		console.log("[debug] light mode")
+						localStorage.setItem("lightmode", false)
+        		console.log("[debug] dark mode")
 						window.location.reload();
 					}
 				},

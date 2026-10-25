@@ -68,7 +68,7 @@
               <f7-list-button id="joinbutton" v-on:click="setroom">Join room</f7-list-button>
             </f7-list>
             <f7-list>
-							<f7-button @click="openstealth">Toggle stealth mode</f7-button>
+							<f7-button @click="openstealth">Toggle stealth mode (for students in class)</f7-button>
             </f7-list>
             <f7-list>
 							<f7-button @click="togglelight">Toggle light/dark mode</f7-button>
@@ -76,10 +76,10 @@
 						<f7-block-title id="keytitle">(Advanced) Set custom enter custom pubnub keys:</f7-block-title>
 						<f7-list>
 							<f7-list-item>
-                <f7-input id='pubkeyinput' type="text" placeholder="enter custom pubnub publish key"/>
+                <f7-input id='pubkeyinput' type="text" placeholder="Enter custom pubnub publish key"/>
               </f7-list-item>
               <f7-list-item>
-                <f7-input id='subkeyinput' type="text" placeholder="enter custom pubnub subscribe key"/>
+                <f7-input id='subkeyinput' type="text" placeholder="Enter custom pubnub subscribe key"/>
               </f7-list-item>
               <f7-list-button id="setkeys" v-on:click="setkeys">Set custom keys</f7-list-button>
               <f7-list-button id="resetkeys" v-on:click="resetkeys">Reset keys</f7-list-button>

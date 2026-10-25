@@ -1,5 +1,5 @@
 (function () {
-  'use strict';
+	'use strict';
   window.appInstance = null;
   const params = new URLSearchParams(window.location.search);
   let room = params.get('room');
@@ -17,9 +17,11 @@
   var subK = ""
   var pubK = ""
   // if ur some kind of hacker pls dont try to spamfetch history on these keys i dont mind because rooms are open anyways but im on pubnubs free plan cuz im broke and youre taking up lots of my api requests per month which kinda sucks ):
-  if (!localStorage.getItem("subK")) {
+  if (!localStorage.getItem("pubK") || !localStorage.getItem("subK")) {
 		subK = "sub-c-6629dbc7-b3af-47a3-b034-b1d9c337284b8"
 		pubK = "pub-c-13075037-e5bf-4757-8497-5a9dedd56514a"
+		localStorage.setItem("pubK", pubK)
+		localStorage.setItem("subK", subK)
 	} else {
 		pubK = localStorage.getItem("pubK")
 		subK = localStorage.getItem("subK")
@@ -102,16 +104,6 @@
     const safeHtml = DOMPurify.sanitize(marked.parse(text));
     const wrapper = document.createElement("div");
     wrapper.innerHTML = safeHtml;
-
-    wrapper.querySelectorAll("a").forEach(link => {
-      link.classList.add("prevent-router");
-      link.target = "_blank"; // Opens link in a new tab
-      link.rel = "noopener noreferrer"; // Security best practice
-      link.onclick = function(e) {
-        e.preventDefault();
-        window.open(this.href, "_blank");
-      }
-    });
 
     return wrapper.innerHTML;
   }
@@ -238,7 +230,6 @@
 
   function initVue() {
     Vue.use(Framework7Vue);
-
     Vue.component('page-chat', {
       template: '#page-chat',
       data: function () {
@@ -281,6 +272,10 @@
           .catch(err => {
             console.error("Failed to read clipboard:", err);
           });
+        },
+        openlink: function (link) {
+					console.log("clicked")
+					window.open(link, "_blank")
         }
       },
       mounted: function () {
@@ -332,6 +327,7 @@
     });
 
     var app = new Vue({
+			vueRouter: false,
       el: '#app',
       data: function () {
         return states;
@@ -466,6 +462,12 @@
   			document.title = "DDD chat";
   			messagecount = 0;
   		}
+	});
+	document.addEventListener('mousedown', (e) => {
+		if (e.target.tagName === 'a' && e.target.className.includes('active-state')) {
+			console.log('Link pressed:', e.target.href);
+			// Handle the active link
+		}
 	});
     var nameInput = document.getElementById("nameinput");
     if (nameInput) nameInput.value = localStorage.getItem('name') || '';

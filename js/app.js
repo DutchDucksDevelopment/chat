@@ -4,7 +4,12 @@
   const params = new URLSearchParams(window.location.search);
   let room = params.get('room');
   if (!room) {
-	  room = "DDD Chat"
+		if (!localStorage.getItem("room")) {
+			room = "DDD Chat"
+		} else {
+			room = localStorage.getItem("room")
+		}
+	localStorage.setItem("room", room)
   } //Default room
   let nameparam = params.get('name');
   console.log('[debug] room:', room);

@@ -383,6 +383,7 @@
           let u = new URL(window.location.href);
           let url = u.origin + u.pathname;
           localStorage.setItem("enterchat", true)
+          localStorage.setItem("room", roomtext)
           window.open(`${url}?room=${encodeURIComponent(roomtext)}`, "_self");
         },
 				togglelight: function () {

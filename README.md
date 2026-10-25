@@ -1,6 +1,6 @@
 ## **DDD Chat**
 
-end-to-end encrypted chat website using pubnub           <img src="./img/screenshot.png>
+end-to-end encrypted chat website using pubnub           ![](./img/screenshot.png)
 
 Functions:
 

@@ -28,9 +28,9 @@
       timeStyle: 'short'
     }).format(new Date(timestamp));
   }
-
-  const style = document.createElement("style");
-  style.textContent = `
+	if (localStorage.getItem("lightmode") == "false") {
+		const style = document.createElement("style");
+		style.textContent = `
 :root {
       color-scheme: dark !important;
     }
@@ -72,8 +72,8 @@
       filter: none !important;
     }
   `;
-
   document.head.appendChild(style);
+	}
   if (!stealthmode) {localStorage.setItem("stealthmode", false)}
   var skipNames = []; //Name Blacklist
   var skipText = [
@@ -373,8 +373,20 @@
           localStorage.setItem("enterchat", true)
           window.open(`${url}?room=${encodeURIComponent(roomtext)}`, "_self");
         },
+				togglelight: function () {
+        	var lightmode = localStorage.getItem("lightmode")
+        	if (lightmode == "true") {
+        		localStorage.setItem("lightmode", false)
+        		console.log("[debug] dark mode")
+        		window.location.reload();
+        	} else {
+						localStorage.setItem("lightmode", true)
+        		console.log("[debug] light mode")
+						window.location.reload();
+					}
+				},
         openstealth: function () {
-        	stealthmode = localStorage.getItem("stealthmode")
+        	var stealthmode = localStorage.getItem("stealthmode")
         	if (stealthmode == "true") {
         		localStorage.setItem("stealthmode", false)
         		console.log("[debug] google")
